@@ -1,1 +1,5 @@
-/target
+/target/release
+/target/debug
+/target/tmp
+target/.rustc_info.json
+target/CACHEDIR.TAG
