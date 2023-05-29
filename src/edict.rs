@@ -29,23 +29,18 @@ impl Ecs {
   pub fn add_remove(&mut self, n: usize) {
     self.world.spawn_batch((0..n).map(|_| (Vec3(glam::Vec3::new(0.0, 0.0, 0.0)),)));
 
-    let mut schedule_add = Scheduler::new();
-    schedule_add.add_system(|world: &mut World, q: QueryRef<&EntityId, With<Vec3>>| {
+    let mut schedule = Scheduler::new();
+    schedule.add_system(|mut action_encoder: ActionEncoder, q: QueryRef<Entities, With<Vec3>>| {
       for e in &q {
-        world.insert(*e, Vec2(glam::Vec2::new(1.0, 1.0))).unwrap();
+        action_encoder.insert(e, Vec2(glam::Vec2::new(1.0, 1.0)));
       }
     });
-
-    schedule_add.run_threaded(&mut self.world);
-
-    let mut schedule_remove = Scheduler::new();
-    schedule_remove.add_system(|world: &mut World, q: QueryRef<&EntityId, With<Vec3>>| {
+    schedule.add_system(|mut action_encoder: ActionEncoder, q: QueryRef<Entities, With<Vec3>>| {
       for e in &q {
-        world.remove::<Vec2>(*e).unwrap();
+        action_encoder.drop::<Vec2>(e);
       }
     });
-
-    schedule_remove.run_threaded(&mut self.world);
+    schedule.run_threaded(&mut self.world);
   }
 
   pub fn iter(&mut self, n: usize) {

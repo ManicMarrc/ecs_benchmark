@@ -6,15 +6,14 @@ use criterion::{
   Throughput,
 };
 
-const N: usize = 6;
+const N: [usize; 3] = [1_000, 100_000, 1_000_000];
 
 macro_rules! new_bench {
   ($name:ident) => {
     paste::paste! {
       pub fn [<bench_$name>](c: &mut Criterion) {
         let mut group = c.benchmark_group(stringify!($name));
-        for i in 0..=N {
-          let i = 10usize.pow(i as u32);
+        for i in N {
           group.throughput(Throughput::Elements(i as u64));
           group.bench_with_input(BenchmarkId::new("bevy_ecs", i), &i, |b, i| {
             let mut bevy_ecs = ecs_benchmark::bevy_ecs::Ecs::new();
