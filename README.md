@@ -1,6 +1,6 @@
 # ECS Benchmark
 
-A benchmark of a couple of popular ECS libraries I found for Rust. Will go more in depth on my [blog](https://manicmarrc.github.io/MrBlog/).
+A benchmark of a couple of popular ECS libraries I found for Rust. Read more [here](https://manicmarrc.github.io/MrBlog/posts/ecs-in-rust/).
 
 ## Getting Started
 
